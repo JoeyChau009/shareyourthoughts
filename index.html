@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Góc Trút Giận - Nơi Vứt Bỏ Muộn Phiền</title>
+    <title>Hộp Thư Ẩn Danh - Nơi Gửi Gắm Tâm Tư</title>
     <style>
         * {
             box-sizing: border-box;
@@ -12,317 +12,274 @@
         }
 
         body {
-            /* 1. ĐÃ THAY ĐỔI: Sử dụng gradient tạo hiệu ứng bầu trời đêm sâu thẳm kết hợp box-shadow giả lập các vì sao */
-            background: radial-gradient(circle at bottom, #111e36 0%, #070b19 100%);
+            /* Giao diện bầu trời đêm sâu thẳm rải sao li ti bằng CSS */
+            background: radial-gradient(circle at bottom, #0d1b2a 0%, #010811 100%);
             background-image: 
-                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
-                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
-                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px);
-            background-size: 550px 550px, 350px 350px, 250px 250px;
-            background-position: 0 0, 40px 60px, 130px 270px;
+                radial-gradient(white, rgba(255,255,255,.3) 1px, transparent 30px),
+                radial-gradient(white, rgba(255,255,255,.2) 1px, transparent 40px),
+                radial-gradient(white, rgba(255,255,255,.15) 1.5px, transparent 30px);
+            background-size: 400px 400px, 280px 280px, 190px 190px;
+            background-position: 0 0, 50px 70px, 110px 150px;
             
-            /* 2. ĐÃ THAY ĐỔI: Chuyển toàn bộ font chữ mặc định của trang sang Times New Roman */
+            /* Font chữ theo yêu cầu */
             font-family: 'Times New Roman', Times, serif;
-            
-            height: 100vh;
+            color: #f8f9fa;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            overflow: hidden;
+            padding: 40px 20px;
+            overflow-y: auto;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            margin-bottom: 40px;
         }
 
         h1 {
-            /* ĐÃ THAY ĐỔI: Đổi màu chữ sang trắng sáng để nổi bật trên nền trời đêm */
-            color: #ffffff;
-            margin-bottom: 10px;
-            font-size: 2.2rem;
             text-align: center;
-            text-shadow: 0 2px 10px rgba(255,255,255,0.3);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
         }
 
-        p.subtitle {
-            /* ĐÃ THAY ĐỔI: Đổi màu chữ sang màu xám bạc để dễ nhìn trên nền tối */
-            color: #bdc3c7;
-            margin-bottom: 20px;
+        p.description {
+            text-align: center;
+            color: #cbd5e1;
             font-size: 1.1rem;
+            margin-bottom: 25px;
+            line-height: 1.5;
         }
 
-        /* Thanh chọn mẫu giấy */
-        .color-picker {
-            display: flex;
-            gap: 15px;
+        /* Khung viết thư */
+        .letter-box {
+            position: relative;
+            background: #fffdf6; /* Màu giấy thư cổ điển hoài niệm */
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            padding: 25px;
             margin-bottom: 20px;
-            background: rgba(255, 255, 255, 0.15); /* Làm mờ nhẹ thanh chọn để hợp nền tối */
-            backdrop-filter: blur(5px);
-            padding: 10px 20px;
-            border-radius: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            z-index: 10;
         }
 
-        .color-dot {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        .color-dot:hover {
-            transform: scale(1.15);
-        }
-
-        .color-dot.active {
-            border-color: #ffffff; /* Đổi viền active sang màu trắng cho nổi bật */
-            transform: scale(1.1);
-        }
-
-        /* Các mẫu màu giấy */
-        .dot-white { background: #ffffff; }
-        .dot-pink { background: #ffd3b6; }
-        .dot-yellow { background: #fff59d; }
-        .dot-dark { background: #37474f; }
-
-        /* Vùng không gian chứa giấy và thùng rác */
-        .workspace {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-            height: 420px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* Đồ họa miếng giấy gốc */
-        .paper-container {
-            width: 90%;
-            max-width: 400px;
-            height: 300px;
-            background: #fff;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            border-radius: 2px;
-            position: relative;
-            transition: background 0.3s ease, transform 1.5s ease-in-out;
-            transform-origin: center center;
-            z-index: 2;
-        }
-
-        /* Đường lề đỏ */
-        .paper-container::before {
+        .letter-box::before {
             content: '';
             position: absolute;
-            left: 40px;
+            left: 35px;
             top: 0;
-            width: 2px;
+            width: 1px;
             height: 100%;
-            background-color: #ff8585;
+            background: #f1a7a7;
         }
 
-        /* Ô chứa text giả lập dòng kẻ */
-        .paper-textarea {
+        textarea {
             width: 100%;
-            height: 100%;
-            padding: 20px 20px 20px 55px;
+            height: 200px;
             border: none;
             resize: none;
             outline: none;
+            font-family: 'Times New Roman', Times, serif;
             font-size: 1.2rem;
             line-height: 1.6;
-            color: #444;
-            
-            /* 3. ĐÃ THAY ĐỔI: Chuyển phông chữ của vùng nhập liệu sang Times New Roman */
-            font-family: 'Times New Roman', Times, serif;
-            
-            background: linear-gradient(transparent, transparent 27px, rgba(0,0,0,0.08) 27px, rgba(0,0,0,0.08) 28px);
+            color: #2c3e50;
+            padding-left: 25px;
+            background: linear-gradient(transparent, transparent 27px, rgba(0,0,0,0.05) 27px, rgba(0,0,0,0.05) 28px);
             background-size: 100% 28px;
-            transition: color 0.3s ease;
         }
 
-        /* Cấu hình màu sắc động cho các mẫu giấy thông qua Class */
-        .paper-white { background-color: #ffffff; }
-        .paper-white textarea { color: #444; }
-
-        .paper-pink { background-color: #ffd3b6; }
-        .paper-pink textarea { color: #5d4037; }
-
-        .paper-yellow { background-color: #fff59d; }
-        .paper-yellow textarea { color: #4e342e; }
-
-        .paper-dark { background-color: #37474f; }
-        .paper-dark textarea { color: #eceff1; background: linear-gradient(transparent, transparent 27px, rgba(255,255,255,0.15) 27px, rgba(255,255,255,0.15) 28px); background-size: 100% 28px; }
-
-        /* Nút trút giận */
-        .vent-btn {
-            margin-top: 15px;
-            padding: 12px 35px;
+        /* Nút gửi */
+        .btn-send {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            font-family: 'Times New Roman', Times, serif;
             font-size: 1.2rem;
             font-weight: bold;
-            
-            /* 4. ĐÃ THAY ĐỔI: Đảm bảo nút bấm cũng ăn theo phông chữ Times New Roman */
-            font-family: 'Times New Roman', Times, serif;
-            
-            color: white;
-            background-color: #d9534f;
-            border: none;
-            border-radius: 25px;
+            color: #ffffff;
+            background: linear-gradient(135deg, #4a5759, #2b2d42);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(217, 83, 79, 0.4);
-            transition: all 0.2s ease;
-            z-index: 3;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
-        .vent-btn:hover {
-            background-color: #c9302c;
+        .btn-send:hover {
+            background: linear-gradient(135deg, #637375, #3d405b);
             transform: translateY(-2px);
         }
 
-        .vent-btn:active {
-            transform: translateY(1px);
+        /* Phân tách vùng chủ Web (Tư vấn viên) */
+        .admin-section {
+            width: 100%;
+            max-width: 650px;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px dashed rgba(255,255,255,0.3);
+            padding: 25px;
+            border-radius: 16px;
         }
 
-        /* Đồ họa cái thùng rác */
-        .trash-can {
+        .admin-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 5px;
+            color: #94a3b8;
+        }
+
+        .no-letter {
+            text-align: center;
+            color: #64748b;
+            font-style: italic;
+            padding: 20px 0;
+        }
+
+        /* Danh sách các bức thư nhận được */
+        .letter-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid #64748b;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 0 8px 8px 0;
+            position: relative;
+        }
+
+        .letter-time {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+
+        .letter-content {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            white-space: pre-wrap; /* Giữ nguyên xuống dòng của người viết */
+            color: #e2e8f0;
+        }
+
+        .btn-delete {
             position: absolute;
-            bottom: -10px;
-            width: 80px;
-            height: 90px;
-            background: #cbd5e1; /* Đổi màu thùng rác sáng hơn một chút để nổi bật trên nền tối */
-            border-bottom-left-radius: 10px;
-            border-bottom-right-radius: 10px;
-            opacity: 0;
-            transform: translateY(50px) scale(0.8);
-            transition: all 0.5s ease;
-            z-index: 1;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-family: 'Times New Roman', Times, serif;
         }
-
-        .trash-can::before {
-            content: '';
-            position: absolute;
-            top: -12px;
-            left: -5px;
-            width: 90px;
-            height: 12px;
-            background: #94a3b8;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .trash-can.show {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-
-        .trash-can.open::before {
-            transform: rotate(-45deg) translate(-10px, -10px);
-        }
-
-        /* ANIMATION */
-        .crumple-and-throw {
-            animation: crumple 1s forwards, throw 0.8s 0.8s forwards;
-        }
-
-        @keyframes crumple {
-            0% { transform: scale(1) rotate(0deg); border-radius: 2px; }
-            100% { 
-                transform: scale(0.15) rotate(720deg); 
-                border-radius: 50%; 
-                box-shadow: inset 0 0 15px rgba(0,0,0,0.4);
-            }
-        }
-
-        @keyframes throw {
-            0% { transform: scale(0.15) translateY(0) rotate(720deg); opacity: 1; }
-            100% { transform: scale(0.05) translateY(240px) rotate(1080deg); opacity: 0; }
-        }
-
-        .trash-away {
-            animation: walkAway 1s forwards;
-        }
-
-        @keyframes walkAway {
-            0% { transform: translate(0, 0) scale(1); opacity: 1; }
-            100% { transform: translate(350px, -60px) scale(0.1); opacity: 0; }
+        
+        .btn-delete:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
 
-    <h1>Góc Trút Giận</h1>
-    <p class="subtitle">Chọn một màu giấy, viết hết ấm ức rồi ném bay đi!</p>
-
-    <div class="color-picker" id="picker-container">
-        <div class="color-dot dot-white active" onclick="changePaperColor('white', this)"></div>
-        <div class="color-dot dot-pink" onclick="changePaperColor('pink', this)"></div>
-        <div class="color-dot dot-yellow" onclick="changePaperColor('yellow', this)"></div>
-        <div class="color-dot dot-dark" onclick="changePaperColor('dark', this)"></div>
-    </div>
-
-    <div class="workspace">
-        <div class="paper-container paper-white" id="paper">
-            <textarea class="paper-textarea" id="text-area" placeholder="Nhập những điều làm bạn bực mình ở đây..."></textarea>
+    <div class="container">
+        <h1>Hộp Thư Ẩn Danh</h1>
+        <p class="description">Đừng giữ những gánh nặng tâm lý một mình. Hãy viết hết những điều đè nặng trong lòng bạn vào đây, tôi luôn ở đây để lắng nghe và chia sẻ cùng bạn.</p>
+        
+        <div class="letter-box">
+            <textarea id="sender-text" placeholder="Hãy viết những điều bạn muốn chia sẻ tại đây... (Danh tính của bạn hoàn toàn được bảo mật)"></textarea>
         </div>
-
-        <div class="trash-can" id="trash"></div>
+        <button class="btn-send" onclick="sendLetter()">Thả Thư Vào Hộp</button>
     </div>
 
-    <button class="vent-btn" id="vent-btn" onclick="startVesting()">Trút Giận!</button>
+    <div class="admin-section">
+        <div class="admin-title">Hòm Thư Đến (Chỉ Chủ Web Nhìn Thấy)</div>
+        <div id="letter-list">
+            </div>
+    </div>
 
     <script>
-        function changePaperColor(colorName, element) {
-            const paper = document.getElementById('paper');
-            paper.classList.remove('paper-white', 'paper-pink', 'paper-yellow', 'paper-dark');
-            paper.classList.add('paper-' + colorName);
+        // Hàm load toàn bộ thư cũ lên khi mở trang
+        document.addEventListener("DOMContentLoaded", function() {
+            displayLetters();
+        });
 
-            const dots = document.querySelectorAll('.color-dot');
-            dots.forEach(dot => dot.classList.remove('active'));
-            element.classList.add('active');
-        }
+        // Hàm xử lý khi người dùng ấn gửi thư
+        function sendLetter() {
+            const textarea = document.getElementById("sender-text");
+            const content = textarea.value.trim();
 
-        function startVesting() {
-            const paper = document.getElementById('paper');
-            const textarea = document.getElementById('text-area');
-            const trash = document.getElementById('trash');
-            const btn = document.getElementById('vent-btn');
-            const picker = document.getElementById('picker-container');
-
-            if (textarea.value.trim() === "") {
-                alert("Hãy viết gì đó trước khi ném đi nhé!");
+            if (content === "") {
+                alert("Bạn chưa điền tâm tư vào thư kìa!");
                 return;
             }
 
-            btn.disabled = true;
-            textarea.disabled = true;
-            picker.style.pointerEvents = 'none';
+            // Lấy thời gian hiện tại lúc gửi
+            const now = new Date();
+            const timeString = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()} lúc ${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
 
-            trash.classList.add('show');
+            // Tạo cấu trúc đối tượng bức thư mới
+            const newLetter = {
+                id: Date.now(),
+                time: timeString,
+                text: content
+            };
 
-            setTimeout(() => {
-                trash.classList.add('open');
-                paper.classList.add('crumple-and-throw');
-            }, 600);
+            // Lấy danh sách thư cũ từ LocalStorage, thêm thư mới vào đầu mảng
+            let letters = JSON.parse(localStorage.getItem("anonymous_letters")) || [];
+            letters.unshift(newLetter);
 
-            setTimeout(() => {
-                trash.classList.remove('open');
-            }, 1700);
+            // Lưu lại mảng mới vào LocalStorage
+            localStorage.setItem("anonymous_letters", JSON.stringify(letters));
 
-            setTimeout(() => {
-                trash.classList.add('trash-away');
-            }, 2200);
+            // Reset ô nhập và thông báo thành công
+            textarea.value = "";
+            alert("Bức thư của bạn đã lặng lẽ bay vào hòm thư. Cảm ơn bạn vì đã chia sẻ!");
 
-            setTimeout(() => {
-                textarea.value = "";
-                textarea.disabled = false;
-                
-                paper.classList.remove('crumple-and-throw');
-                trash.className = "trash-can";
-                
-                btn.disabled = false;
-                picker.style.pointerEvents = 'auto';
-            }, 3500);
+            // Cập nhật lại danh sách thư hiển thị bên dưới ngay lập tức
+            displayLetters();
+        }
+
+        // Hàm hiển thị danh sách thư ở khu vực quản trị
+        function displayLetters() {
+            const listContainer = document.getElementById("letter-list");
+            let letters = JSON.parse(localStorage.getItem("anonymous_letters")) || [];
+
+            if (letters.length === 0) {
+                listContainer.innerHTML = '<div class="no-letter">Hiện tại chưa có bức thư ẩn danh nào được gửi đến.</div>';
+                return;
+            }
+
+            let htmlContent = "";
+            letters.forEach(letter => {
+                htmlContent += `
+                    <div class="letter-item">
+                        <button class="btn-delete" onclick="deleteLetter(${letter.id})">[Xóa thư]</button>
+                        <div class="letter-time">Nhận được vào ngày: ${letter.time}</div>
+                        <div class="letter-content">${escapeHTML(letter.text)}</div>
+                    </div>
+                `;
+            });
+            listContainer.innerHTML = htmlContent;
+        }
+
+        // Hàm xóa thư khi bạn đã tư vấn xong hoặc muốn lọc bớt
+        function deleteLetter(id) {
+            if (confirm("Bạn có chắc chắn muốn xóa bức thư này không?")) {
+                let letters = JSON.parse(localStorage.getItem("anonymous_letters")) || [];
+                letters = letters.filter(letter => letter.id !== id);
+                localStorage.setItem("anonymous_letters", JSON.stringify(letters));
+                displayLetters();
+            }
+        }
+
+        // Hàm lọc ký tự đặc biệt để chống lỗi hiển thị văn bản (XSS Security)
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
         }
     </script>
 
