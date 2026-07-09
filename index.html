@@ -12,9 +12,18 @@
         }
 
         body {
-            background: #eef2f3;
-            background: linear-gradient(to right, #eef2f3, #8e9eab);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* 1. ĐÃ THAY ĐỔI: Sử dụng gradient tạo hiệu ứng bầu trời đêm sâu thẳm kết hợp box-shadow giả lập các vì sao */
+            background: radial-gradient(circle at bottom, #111e36 0%, #070b19 100%);
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px);
+            background-size: 550px 550px, 350px 350px, 250px 250px;
+            background-position: 0 0, 40px 60px, 130px 270px;
+            
+            /* 2. ĐÃ THAY ĐỔI: Chuyển toàn bộ font chữ mặc định của trang sang Times New Roman */
+            font-family: 'Times New Roman', Times, serif;
+            
             height: 100vh;
             display: flex;
             flex-direction: column;
@@ -24,17 +33,19 @@
         }
 
         h1 {
-            color: #333;
+            /* ĐÃ THAY ĐỔI: Đổi màu chữ sang trắng sáng để nổi bật trên nền trời đêm */
+            color: #ffffff;
             margin-bottom: 10px;
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             text-align: center;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            text-shadow: 0 2px 10px rgba(255,255,255,0.3);
         }
 
         p.subtitle {
-            color: #555;
+            /* ĐÃ THAY ĐỔI: Đổi màu chữ sang màu xám bạc để dễ nhìn trên nền tối */
+            color: #bdc3c7;
             margin-bottom: 20px;
-            font-size: 1rem;
+            font-size: 1.1rem;
         }
 
         /* Thanh chọn mẫu giấy */
@@ -42,10 +53,11 @@
             display: flex;
             gap: 15px;
             margin-bottom: 20px;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.15); /* Làm mờ nhẹ thanh chọn để hợp nền tối */
+            backdrop-filter: blur(5px);
             padding: 10px 20px;
             border-radius: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             z-index: 10;
         }
 
@@ -64,7 +76,7 @@
         }
 
         .color-dot.active {
-            border-color: #333;
+            border-color: #ffffff; /* Đổi viền active sang màu trắng cho nổi bật */
             transform: scale(1.1);
         }
 
@@ -91,7 +103,7 @@
             max-width: 400px;
             height: 300px;
             background: #fff;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             border-radius: 2px;
             position: relative;
             transition: background 0.3s ease, transform 1.5s ease-in-out;
@@ -118,10 +130,13 @@
             border: none;
             resize: none;
             outline: none;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             line-height: 1.6;
             color: #444;
-            font-family: 'Courier New', Courier, monospace;
+            
+            /* 3. ĐÃ THAY ĐỔI: Chuyển phông chữ của vùng nhập liệu sang Times New Roman */
+            font-family: 'Times New Roman', Times, serif;
+            
             background: linear-gradient(transparent, transparent 27px, rgba(0,0,0,0.08) 27px, rgba(0,0,0,0.08) 28px);
             background-size: 100% 28px;
             transition: color 0.3s ease;
@@ -144,8 +159,12 @@
         .vent-btn {
             margin-top: 15px;
             padding: 12px 35px;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: bold;
+            
+            /* 4. ĐÃ THAY ĐỔI: Đảm bảo nút bấm cũng ăn theo phông chữ Times New Roman */
+            font-family: 'Times New Roman', Times, serif;
+            
             color: white;
             background-color: #d9534f;
             border: none;
@@ -171,7 +190,7 @@
             bottom: -10px;
             width: 80px;
             height: 90px;
-            background: #555;
+            background: #cbd5e1; /* Đổi màu thùng rác sáng hơn một chút để nổi bật trên nền tối */
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
             opacity: 0;
@@ -187,7 +206,7 @@
             left: -5px;
             width: 90px;
             height: 12px;
-            background: #444;
+            background: #94a3b8;
             border-radius: 5px;
             transition: all 0.3s ease;
         }
@@ -210,7 +229,7 @@
             0% { transform: scale(1) rotate(0deg); border-radius: 2px; }
             100% { 
                 transform: scale(0.15) rotate(720deg); 
-                border-radius: 50%; /* Biến thành viên giấy tròn */
+                border-radius: 50%; 
                 box-shadow: inset 0 0 15px rgba(0,0,0,0.4);
             }
         }
@@ -253,22 +272,16 @@
     <button class="vent-btn" id="vent-btn" onclick="startVesting()">Trút Giận!</button>
 
     <script>
-        // Hàm xử lý đổi màu giấy khi click chọn mẫu
         function changePaperColor(colorName, element) {
             const paper = document.getElementById('paper');
-            
-            // Xóa toàn bộ class màu cũ của tờ giấy
             paper.classList.remove('paper-white', 'paper-pink', 'paper-yellow', 'paper-dark');
-            // Thêm class màu mới
             paper.classList.add('paper-' + colorName);
 
-            // Cập nhật trạng thái "active" trên thanh chọn
             const dots = document.querySelectorAll('.color-dot');
             dots.forEach(dot => dot.classList.remove('active'));
             element.classList.add('active');
         }
 
-        // Hàm kích hoạt hiệu ứng ném giấy và quăng thùng rác
         function startVesting() {
             const paper = document.getElementById('paper');
             const textarea = document.getElementById('text-area');
@@ -281,40 +294,34 @@
                 return;
             }
 
-            // Khóa tương tác khi đang chạy hiệu ứng
             btn.disabled = true;
             textarea.disabled = true;
-            picker.style.pointerEvents = 'none'; // Không cho đổi màu lúc đang ném
+            picker.style.pointerEvents = 'none';
 
-            // Bước 1: Hiện thùng rác
             trash.classList.add('show');
 
-            // Bước 2: Sau 0.6s, mở nắp thùng và vo tròn ném giấy đi
             setTimeout(() => {
                 trash.classList.add('open');
                 paper.classList.add('crumple-and-throw');
             }, 600);
 
-            // Bước 3: Sau khi giấy rơi vào (1.7s), đóng nắp thùng rác
             setTimeout(() => {
                 trash.classList.remove('open');
             }, 1700);
 
-            // Bước 4: Sau khi đóng nắp (2.2s), quăng cả cái thùng rác đi
             setTimeout(() => {
                 trash.classList.add('trash-away');
             }, 2200);
 
-            // Bước 5: Sau khi mọi thứ biến mất (3.5s), reset trạng thái để chơi lượt mới
             setTimeout(() => {
                 textarea.value = "";
                 textarea.disabled = false;
                 
                 paper.classList.remove('crumple-and-throw');
-                trash.className = "trash-can"; // Reset sạch hiệu ứng thùng rác
+                trash.className = "trash-can";
                 
                 btn.disabled = false;
-                picker.style.pointerEvents = 'auto'; // Mở lại tính năng chọn màu
+                picker.style.pointerEvents = 'auto';
             }, 3500);
         }
     </script>
