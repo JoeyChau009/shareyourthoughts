@@ -245,8 +245,8 @@
 </head>
 <body>
 
-    <h1>Góc Trút Giận</h1>
-    <p class="subtitle">Chọn một màu giấy, viết hết ấm ức rồi ném bay đi!</p>
+    <h1>Hộp thư cất giữ cảm xúc</h1>
+    <p class="subtitle">Chọn một màu giấy</p>
 
     <div class="color-picker" id="picker-container">
         <div class="color-dot dot-white active" onclick="changePaperColor('white', this)"></div>
@@ -257,13 +257,13 @@
 
     <div class="workspace">
         <div class="paper-container paper-white" id="paper">
-            <textarea class="paper-textarea" id="text-area" placeholder="Nhập những điều làm bạn bực mình ở đây..."></textarea>
+            <textarea class="paper-textarea" id="text-area" placeholder="..."></textarea>
         </div>
 
         <div class="trash-can" id="trash"></div>
     </div>
 
-    <button class="vent-btn" id="vent-btn" onclick="startVesting()">Trút Giận!</button>
+    <button class="vent-btn" id="vent-btn" onclick="startVesting()">Xóa đi!</button>
 
     <script>
         function changePaperColor(colorName, element) {
