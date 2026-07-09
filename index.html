@@ -9,10 +9,13 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease;
         }
 
-        body {
-            /* Giao diện bầu trời đêm sâu thẳm rải sao li ti bằng CSS */
+        /* --- ĐỊNH NGHĨA CÁC THEME GIAO DIỆN --- */
+        
+        /* 1. Theme Chòm Sao (Bầu trời đêm đầy sao) */
+        body.theme-stars {
             background: radial-gradient(circle at bottom, #0d1b2a 0%, #010811 100%);
             background-image: 
                 radial-gradient(white, rgba(255,255,255,.3) 1px, transparent 30px),
@@ -20,10 +23,43 @@
                 radial-gradient(white, rgba(255,255,255,.15) 1.5px, transparent 30px);
             background-size: 400px 400px, 280px 280px, 190px 190px;
             background-position: 0 0, 50px 70px, 110px 150px;
-            
-            /* Font chữ theo yêu cầu */
-            font-family: 'Times New Roman', Times, serif;
             color: #f8f9fa;
+        }
+        body.theme-stars .container { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.15); }
+        body.theme-stars h1 { color: #ffffff; text-shadow: 0 2px 8px rgba(255, 255, 255, 0.2); }
+        body.theme-stars p.description { color: #cbd5e1; }
+        body.theme-stars .admin-section { background: rgba(15, 23, 42, 0.85); border-color: rgba(255,255,255,0.3); }
+        body.theme-stars .admin-title { color: #94a3b8; }
+        body.theme-stars .letter-item { background: rgba(255, 255, 255, 0.05); border-left-color: #64748b; color: #e2e8f0; }
+
+        /* 2. Theme Sáng (Trắng chủ đạo) */
+        body.theme-light {
+            background: #f1f5f9;
+            color: #0f172a;
+        }
+        body.theme-light .container { background: #ffffff; border-color: #cbd5e1; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        body.theme-light h1 { color: #1e293b; text-shadow: none; }
+        body.theme-light p.description { color: #475569; }
+        body.theme-light .admin-section { background: #ffffff; border-color: #cbd5e1; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+        body.theme-light .admin-title { color: #334155; border-bottom-color: #e2e8f0; }
+        body.theme-light .letter-item { background: #f8fafc; border-left-color: #475569; color: #334155; }
+        body.theme-light .no-letter { color: #94a3b8; }
+
+        /* 3. Theme Tối (Đen/Xám sẫm chủ đạo) */
+        body.theme-dark {
+            background: #0f172a;
+            color: #f8f9fa;
+        }
+        body.theme-dark .container { background: #1e293b; border-color: #334155; }
+        body.theme-dark h1 { color: #f1f5f9; text-shadow: none; }
+        body.theme-dark p.description { color: #94a3b8; }
+        body.theme-dark .admin-section { background: #1e293b; border-color: #475569; }
+        body.theme-dark .admin-title { color: #cbd5e1; border-bottom-color: #334155; }
+        body.theme-dark .letter-item { background: #1e293b; border-color: #334155 #334155 #334155 #94a3b8; color: #e2e8f0; }
+
+        /* --- PHẦN STYLE CHUNG --- */
+        body {
+            font-family: 'Times New Roman', Times, serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -32,16 +68,47 @@
             overflow-y: auto;
         }
 
+        /* Thanh chọn giao diện đổi màu nền */
+        .theme-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .theme-btn {
+            padding: 6px 14px;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 0.9rem;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            background: transparent;
+            color: inherit;
+            font-weight: bold;
+        }
+
+        .theme-btn.active {
+            background: #ffffff;
+            color: #0f172a;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+
         .container {
             width: 100%;
             max-width: 650px;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
             padding: 30px;
             border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
             margin-bottom: 40px;
+            margin-top: 20px;
         }
 
         h1 {
@@ -49,23 +116,21 @@
             font-size: 2.2rem;
             margin-bottom: 10px;
             letter-spacing: 1px;
-            text-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
         }
 
         p.description {
             text-align: center;
-            color: #cbd5e1;
             font-size: 1.1rem;
             margin-bottom: 25px;
             line-height: 1.5;
         }
 
-        /* Khung viết thư */
+        /* Khung viết thư (Giữ nguyên phong cách cổ điển dễ viết) */
         .letter-box {
             position: relative;
-            background: #fffdf6; /* Màu giấy thư cổ điển hoài niệm */
+            background: #fffdf6;
             border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
             padding: 25px;
             margin-bottom: 20px;
         }
@@ -95,7 +160,7 @@
             background-size: 100% 28px;
         }
 
-        /* Nút gửi */
+        /* Nút gửi thư */
         .btn-send {
             display: block;
             width: 100%;
@@ -104,25 +169,24 @@
             font-size: 1.2rem;
             font-weight: bold;
             color: #ffffff;
-            background: linear-gradient(135deg, #4a5759, #2b2d42);
-            border: 1px solid rgba(255,255,255,0.2);
+            background: linear-gradient(135deg, #334155, #1e293b);
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: transform 0.2s, background-color 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
 
         .btn-send:hover {
-            background: linear-gradient(135deg, #637375, #3d405b);
             transform: translateY(-2px);
+            background: linear-gradient(135deg, #475569, #334155);
         }
 
-        /* Phân tách vùng chủ Web (Tư vấn viên) */
+        /* Phân tách vùng chủ Web */
         .admin-section {
             width: 100%;
             max-width: 650px;
-            background: rgba(15, 23, 42, 0.85);
-            border: 1px dashed rgba(255,255,255,0.3);
+            border: 1px dashed;
             padding: 25px;
             border-radius: 16px;
         }
@@ -132,37 +196,35 @@
             margin-bottom: 15px;
             border-bottom: 1px solid rgba(255,255,255,0.2);
             padding-bottom: 5px;
-            color: #94a3b8;
         }
 
         .no-letter {
             text-align: center;
-            color: #64748b;
             font-style: italic;
             padding: 20px 0;
+            color: #94a3b8;
         }
 
-        /* Danh sách các bức thư nhận được */
+        /* Danh sách thư */
         .letter-item {
-            background: rgba(255, 255, 255, 0.05);
-            border-left: 4px solid #64748b;
             padding: 15px;
             margin-bottom: 15px;
             border-radius: 0 8px 8px 0;
             position: relative;
+            border-width: 1px 1px 1px 4px;
+            border-style: solid;
         }
 
         .letter-time {
             font-size: 0.85rem;
-            color: #94a3b8;
+            color: #64748b;
             margin-bottom: 8px;
         }
 
         .letter-content {
             font-size: 1.1rem;
             line-height: 1.5;
-            white-space: pre-wrap; /* Giữ nguyên xuống dòng của người viết */
-            color: #e2e8f0;
+            white-space: pre-wrap;
         }
 
         .btn-delete {
@@ -182,7 +244,11 @@
         }
     </style>
 </head>
-<body>
+<body class="theme-stars"> <div class="theme-switcher">
+        <button class="theme-btn active" onclick="changeTheme('stars', this)">Chòm Sao</button>
+        <button class="theme-btn" onclick="changeTheme('light', this)">Trắng</button>
+        <button class="theme-btn" onclick="changeTheme('dark', this)">Đen</button>
+    </div>
 
     <div class="container">
         <h1>Hộp Thư Ẩn Danh</h1>
@@ -196,17 +262,27 @@
 
     <div class="admin-section">
         <div class="admin-title">Hòm Thư Đến (Chỉ Chủ Web Nhìn Thấy)</div>
-        <div id="letter-list">
-            </div>
+        <div id="letter-list"></div>
     </div>
 
     <script>
-        // Hàm load toàn bộ thư cũ lên khi mở trang
+        // Hàm thay đổi Theme nền và đồng bộ màu chữ công khai
+        function changeTheme(themeName, element) {
+            // Xóa hết class cũ ở body và add class mới vào
+            document.body.className = '';
+            document.body.classList.add('theme-' + themeName);
+
+            // Cập nhật trạng thái active trên các nút bấm chọn màu nền
+            const buttons = document.querySelectorAll('.theme-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        // --- CÁC HÀM XỬ LÝ DỮ LIỆU ĐÃ CÓ (GIỮ NGUYÊN) ---
         document.addEventListener("DOMContentLoaded", function() {
             displayLetters();
         });
 
-        // Hàm xử lý khi người dùng ấn gửi thư
         function sendLetter() {
             const textarea = document.getElementById("sender-text");
             const content = textarea.value.trim();
@@ -216,33 +292,24 @@
                 return;
             }
 
-            // Lấy thời gian hiện tại lúc gửi
             const now = new Date();
             const timeString = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()} lúc ${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
 
-            // Tạo cấu trúc đối tượng bức thư mới
             const newLetter = {
                 id: Date.now(),
                 time: timeString,
                 text: content
             };
 
-            // Lấy danh sách thư cũ từ LocalStorage, thêm thư mới vào đầu mảng
             let letters = JSON.parse(localStorage.getItem("anonymous_letters")) || [];
             letters.unshift(newLetter);
-
-            // Lưu lại mảng mới vào LocalStorage
             localStorage.setItem("anonymous_letters", JSON.stringify(letters));
 
-            // Reset ô nhập và thông báo thành công
             textarea.value = "";
             alert("Bức thư của bạn đã lặng lẽ bay vào hòm thư. Cảm ơn bạn vì đã chia sẻ!");
-
-            // Cập nhật lại danh sách thư hiển thị bên dưới ngay lập tức
             displayLetters();
         }
 
-        // Hàm hiển thị danh sách thư ở khu vực quản trị
         function displayLetters() {
             const listContainer = document.getElementById("letter-list");
             let letters = JSON.parse(localStorage.getItem("anonymous_letters")) || [];
@@ -256,32 +323,4 @@
             letters.forEach(letter => {
                 htmlContent += `
                     <div class="letter-item">
-                        <button class="btn-delete" onclick="deleteLetter(${letter.id})">[Xóa thư]</button>
-                        <div class="letter-time">Nhận được vào ngày: ${letter.time}</div>
-                        <div class="letter-content">${escapeHTML(letter.text)}</div>
-                    </div>
-                `;
-            });
-            listContainer.innerHTML = htmlContent;
-        }
-
-        // Hàm xóa thư khi bạn đã tư vấn xong hoặc muốn lọc bớt
-        function deleteLetter(id) {
-            if (confirm("Bạn có chắc chắn muốn xóa bức thư này không?")) {
-                let letters = JSON.parse(localStorage.getItem("anonymous_letters")) || [];
-                letters = letters.filter(letter => letter.id !== id);
-                localStorage.setItem("anonymous_letters", JSON.stringify(letters));
-                displayLetters();
-            }
-        }
-
-        // Hàm lọc ký tự đặc biệt để chống lỗi hiển thị văn bản (XSS Security)
-        function escapeHTML(str) {
-            return str.replace(/[&<>'"]/g, 
-                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
-            );
-        }
-    </script>
-
-</body>
-</html>
+                        <button class="btn-delete" onclick="deleteLetter(${letter.id})">[Xóa thư]</
