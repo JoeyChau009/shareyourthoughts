@@ -323,4 +323,29 @@
             letters.forEach(letter => {
                 htmlContent += `
                     <div class="letter-item">
-                        <button class="btn-delete" onclick="deleteLetter(${letter.id})">[Xóa thư]</
+                        <button class="btn-delete" onclick="deleteLetter(${letter.id})">[Xóa thư]</button>
+                        <div class="letter-time">Nhận được vào ngày: ${letter.time}</div>
+                        <div class="letter-content">${escapeHTML(letter.text)}</div>
+                    </div>
+                `;
+            });
+            listContainer.innerHTML = htmlContent;
+        }
+
+        function deleteLetter(id) {
+            if (confirm("Bạn có chắc chắn muốn xóa bức thư này không?")) {
+                let letters = JSON.parse(localStorage.getItem("anonymous_letters")) || [];
+                letters = letters.filter(letter => letter.id !== id);
+                localStorage.setItem("anonymous_letters", JSON.stringify(letters));
+                displayLetters();
+            }
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
+        }
+    </script>
+</body>
+</html>
